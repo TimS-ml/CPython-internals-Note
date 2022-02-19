@@ -14,6 +14,7 @@ Reference:
 
 # How to play around with the source code
 You don't need to run `make install` inside python 3.7
+After running `make -j8` or `make -j4`, copy or link `python` from ./Python-3.7.12 to project root directory
 To install packages, run `./python -m pip install`, then you can find it in `~/.local/lib/python3.7`
 
 To execute python, simply: `./python`
