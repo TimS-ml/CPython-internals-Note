@@ -4,52 +4,17 @@ Use python 3.7.12 and 2.7.18 source code to understand python better
 - Getting the python source code here: 
   - https://www.python.org/downloads/release/python-3712/
   - https://www.python.org/downloads/release/python-2718/
+  - Source code => complier => byte code => interpreter(what we gonna focus) => output
 
 Reference:
 - [CPython internals: A ten-hour codewalk through the Python interpreter source code](https://www.youtube.com/playlist?list=PLzV58Zm8FuBL6OAv1Yu6AwXZrnsFbbR0S)
 - [In Chinese](https://flaggo.github.io/python3-source-code-analysis/)
 
 
-# Overview
-Source code => complier => byte code => interpreter(what we gonna focus) => output
 
-
-# Include
-header files
-interfaces
-
-## 00 opcode.h
-different operations
-
-
-
-# Objects
-internal IOs (for example list object)
-
-## object.c
-how things implemented
-
-
-
-# Python
-run times
-
-## 01 ceval.c
-main interpreter loop
-```c
-for (;;)
-```
-
-
-
-# Modules / Lib
-for example import os, built in modules
-
-
-
-# Notes
+# How to play around with the source code
 open python, type:
-```
+```python
 help(compile)
 
 # Compile source into a code object that can be executed by exec() or eval().
@@ -74,6 +39,4 @@ type(c.co_code)
 
 # in py2:
 [ord(byte) for byte in c.co_code]
-
 ```
-

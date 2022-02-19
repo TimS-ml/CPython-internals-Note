@@ -927,7 +927,7 @@ _PyEval_EvalFrameDefault(PyFrameObject *f, int throwflag)
     assert(!PyErr_Occurred());
 #endif
 
-    for (;;) {
+    for (;;) {  // The main for loop
         assert(stack_pointer >= f->f_valuestack); /* else underflow */
         assert(STACK_LEVEL() <= co->co_stacksize);  /* else overflow */
         assert(!PyErr_Occurred());
