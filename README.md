@@ -13,30 +13,14 @@ Reference:
 
 
 # How to play around with the source code
-open python, type:
+You don't need to run `make install` inside python 3.7
+To install packages, run `./python -m pip install`, then you can find it in `~/.local/lib/python3.7`
+
+To execute python, simply: `./python`
+To load python script in IPython, simply: 
+- `./python -m pip install` then `./ipython`
+- Inside ipython, run:
 ```python
-help(compile)
-
-# Compile source into a code object that can be executed by exec() or eval().
-c = compile('test.py', 'test.py', 'exec')
-
-# output:
-# <code object <module> at 0x7eff7ecc2e40, file "test.py", line 1>
-
-
-
-# dir(c) or help(c)
-c.co_code
-
-# out: byte code
-b'e\x00j\x01\x01\x00d\x00S\x00'
-
-type(c.co_code)
-
-[byte for byte in c.co_code]
-# out: check acs2 table
-# [101, 0, 106, 1, 1, 0, 100, 0, 83, 0]
-
-# in py2:
-[ord(byte) for byte in c.co_code]
+%run ./your_script.py
 ```
+
