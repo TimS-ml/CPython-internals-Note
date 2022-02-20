@@ -159,13 +159,12 @@ To speedup the loop, you can find a function(?) called `fast_next_code`
 
 
 ## Go over the byte code line by line
-by the way: Check `./Python-3.7.12/Lib/dis.py` for dis
-You will find:
+by the way: Check `./Python-3.7.12/Lib/dis.py` for what happened inside `python -m dis xxx.py`, you will find:
 ```python
 code = compile(source, args.infile.name, "exec")
 ```
 
-
+```
 Line 1
 0 LOAD_CONST               0 (1)
 Push into a `value stack`
@@ -198,3 +197,4 @@ Load None
 
 26 RETURN_VALUE
 Pop None. Python return None by default
+```
