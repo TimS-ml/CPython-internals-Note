@@ -15,7 +15,7 @@ Reference:
 
 
 # TODO
-- [ ] Notation of `opcode.h` and `ceval.c`
+- [ ] Notation on `opcode.h` and `ceval.c`
 
 
 
@@ -39,7 +39,6 @@ or
 ```
 
 
-
 # A qick note of C
 ## C macros
 ```c
@@ -54,10 +53,8 @@ or
 ```
 
 
-
 # The opcode and the main interpreter loop
-- https://docs.python.org/3/whatsnew/3.6.html#cpython-bytecode-changes
-- https://docs.python.org/3/library/dis.html
+https://docs.python.org/3/whatsnew/3.6.html#cpython-bytecode-changes
 
 The output of `python -m dis ./test.py`
 ```python
@@ -80,38 +77,16 @@ The output of `python -m dis ./test.py`
              26 RETURN_VALUE
 ```
 
-
-## The meaning of byte code
 ```
-          byte code line number                  
-          also total bytes so far     var value
+          byte code line number       var value
               |                             | 
   1           0 LOAD_CONST               0 (1)
   |                 |                    |    
 line number     Instruction           var number
 ```
 
-- Single line will match one or more specific byte code
-- 2 bytes per command (1 for command, 1 for argument pointer(?))
-  - BINARY_ADD becomes 2 bytes in python 3
-- `len(c.co_code)` = 28, the python executable should be 28 bytes
-- Take a look in side each byte in `c.co_code` list, this should looks familar:
+Single line will match one or more specific byte code
 
-```python
-[
-    100, 0, 
-    90, 0, 
-    100, 1, 
-    90, 1, 
-    101, 0, 
-    101, 1, 
-
-    ...
-
-    100, 2, 
-    83, 0
-]
-```
 
 ## Inside `opcode.h` and `ceval.c`
 ### `opcode.h`
@@ -124,8 +99,7 @@ In `opcode.h` we can find
 
 ### `ceval.c`
 Recall that running `01-compile.py` will return: 
-- b'd\x00Z\x00d\x01Z\x01e\x00e\x01\x17\x00Z\x02e\x03e\x02\x83\x01\x01\x00d\x02S\x00'
-- which equals to [100, 0, 90, 0, 100, 1, 90, 1, 101, 0, 101, 1, 23, 0, 90, 2, 101, 3, 101, 2, 131, 1, 1, 0, 100, 2, 83, 0]
+b'e\x00j\x01\x01\x00d\x00S\x00', i.e. [101, 0, 106, 1, 1, 0, 100, 0, 83, 0]
 
 This list is a compressed result, which will be executed in `ceval.c`
 
