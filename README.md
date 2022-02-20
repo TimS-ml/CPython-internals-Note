@@ -9,17 +9,20 @@ Use python 3.7.12 and 2.7.18 source code to understand python better
 Reference:
 - [CPython internals: A ten-hour codewalk through the Python interpreter source code](https://www.youtube.com/playlist?list=PLzV58Zm8FuBL6OAv1Yu6AwXZrnsFbbR0S)
 - [In Chinese](https://flaggo.github.io/python3-source-code-analysis/)
-- byteplay (for 2.7) or bytecode
-  - https://github.com/MatthieuDartiailh/bytecode
+- Byte code visualizer
+  - https://pythontutor.com/
+  - byteplay (for 2.7) or bytecode
 
 
 
 # TODO
+
 - [ ] Notation of `opcode.h` and `ceval.c`
 
 
 
 # How to play around with the source code
+
 Search **PYIMPORTANT** in source code, it will bring you to the location that crucal to read
 
 You don't need to run `make install` inside python 3.7
@@ -30,10 +33,13 @@ To execute python, simply: `./python`
 To load python script in IPython, simply: 
 - `./python -m pip install` then `./ipython`
 - Inside ipython, run:
+
 ```python
 %run ./your_script.py
 ```
+
 or
+
 ```python
 %run -m dis ./your_script.py
 ```
@@ -41,6 +47,7 @@ or
 
 
 # A qick note of C
+
 ## C macros
 ```c
 // An easy one, in `opcode.h`
@@ -55,7 +62,15 @@ or
 
 
 
+# Important terms in Python interpreter
+
+- value stack
+- function stack
+
+
+
 # The opcode and the main interpreter loop
+
 - https://docs.python.org/3/whatsnew/3.6.html#cpython-bytecode-changes
 - https://docs.python.org/3/library/dis.html
 
@@ -96,6 +111,7 @@ line number     Instruction           var number
   - BINARY_ADD becomes 2 bytes in python 3
 - `len(c.co_code)` = 28, the python executable should be 28 bytes
 - Take a look in side each byte in `c.co_code` list, this should looks familar:
+- You can find a pre-compiled file end in `.pyc`
 
 ```python
 [
@@ -113,6 +129,7 @@ line number     Instruction           var number
 ]
 ```
 
+
 ## Inside `opcode.h` and `ceval.c`
 ### `opcode.h`
 In `opcode.h` we can find
@@ -121,6 +138,7 @@ In `opcode.h` we can find
 #define HAVE_ARGUMENT            90  // place holder, before 90: no arg, after 90: with arg
 #define LOAD_CONST              100
 ```
+
 
 ### `ceval.c`
 Recall that running `01-compile.py` will return: 

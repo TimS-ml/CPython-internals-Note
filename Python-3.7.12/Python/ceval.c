@@ -880,6 +880,7 @@ _PyEval_EvalFrameDefault(PyFrameObject *f, int throwflag)
     if (PyDTrace_FUNCTION_ENTRY_ENABLED())
         dtrace_function_entry(f);
 
+    // get the code
     co = f->f_code;
     names = co->co_names;
     consts = co->co_consts;
@@ -1107,6 +1108,14 @@ _PyEval_EvalFrameDefault(PyFrameObject *f, int throwflag)
             FAST_DISPATCH();
         }
 
+        /* Example value stack: 
+           [1, 2, 3]
+                  /\
+                 x  y
+            if we pop y, Py_DECREF will reduce the number 
+            of ref by 1. Once the number of ref becomes 0,
+            call gc to remove this value in value stack
+         */
         TARGET(POP_TOP) {
             PyObject *value = POP();
             Py_DECREF(value);
