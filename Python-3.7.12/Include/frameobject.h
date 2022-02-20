@@ -14,9 +14,10 @@ typedef struct {
     int b_level;                /* value stack level to pop to */
 } PyTryBlock;
 
+// PYIMPORTANT: we got a stach of frame object in LinkedList
 typedef struct _frame {
     PyObject_VAR_HEAD
-    struct _frame *f_back;      /* previous frame, or NULL */
+    struct _frame *f_back;      /* (The LinkedList connect pointer) previous frame, or NULL */
     PyCodeObject *f_code;       /* code segment */
     PyObject *f_builtins;       /* builtin symbol table (PyDictObject) */
     PyObject *f_globals;        /* global symbol table (PyDictObject) */
@@ -43,7 +44,7 @@ typedef struct _frame {
     int f_iblock;               /* index in f_blockstack */
     char f_executing;           /* whether the frame is still executing */
     PyTryBlock f_blockstack[CO_MAXBLOCKS]; /* for try and loop blocks */
-    PyObject *f_localsplus[1];  /* locals+stack, dynamically sized */
+    PyObject *f_localsplus[1];  /* (! for optimization) locals+stack, dynamically sized */
 } PyFrameObject;
 
 

@@ -543,7 +543,7 @@ PyEval_EvalFrame(PyFrameObject *f) {
 // PYIMPORTANT
 PyObject *  // a pointer to PyObject, everything in python is an Object
 // throwflag: an exception
-// PyFrameObject *f: a pointer
+// PyFrameObject *f: a pointer, check `frameobject.h`
 PyEval_EvalFrameEx(PyFrameObject *f, int throwflag)  // A super long function
 {
     PyThreadState *tstate = PyThreadState_GET();
@@ -3134,7 +3134,8 @@ _PyEval_EvalFrameDefault(PyFrameObject *f, int throwflag)
                 goto error;
             DISPATCH();
         }
-
+        
+        // PYIMPORTANT
         PREDICTED(CALL_FUNCTION);
         TARGET(CALL_FUNCTION) {
             PyObject **sp, *res;
@@ -3702,7 +3703,8 @@ _PyEval_EvalCodeWithName(PyObject *_co, PyObject *globals, PyObject *locals,
                         "PyEval_EvalCodeEx: NULL globals");
         return NULL;
     }
-
+    
+    // PYIMPORTANT: Every time you call a funtion it create a new frame
     /* Create the frame */
     tstate = PyThreadState_GET();
     assert(tstate != NULL);
@@ -3710,6 +3712,8 @@ _PyEval_EvalCodeWithName(PyObject *_co, PyObject *globals, PyObject *locals,
     if (f == NULL) {
         return NULL;
     }
+
+    // copy into new frame
     fastlocals = f->f_localsplus;
     freevars = f->f_localsplus + co->co_nlocals;
 
@@ -4566,6 +4570,7 @@ if (tstate->use_tracing && tstate->c_profilefunc) { \
     x = call; \
     }
 
+// PYIMPORTANT
 /* Issue #29227: Inline call_function() into _PyEval_EvalFrameDefault()
    to reduce the stack consumption. */
 Py_LOCAL_INLINE(PyObject *) _Py_HOT_FUNCTION
@@ -4629,7 +4634,8 @@ call_function(PyObject ***pp_stack, Py_ssize_t oparg, PyObject *kwnames)
         else {
             Py_INCREF(func);
         }
-
+        
+        // PYIMPORTANT: core part
         if (PyFunction_Check(func)) {
             x = _PyFunction_FastCallKeywords(func, stack, nargs, kwnames);
         }

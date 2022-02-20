@@ -795,6 +795,7 @@ PyAPI_FUNC(void) _Py_Dealloc(PyObject *);
     _Py_INC_REFTOTAL  _Py_REF_DEBUG_COMMA       \
     ((PyObject *)(op))->ob_refcnt++)
 
+// PYIMPORTANT
 #define Py_DECREF(op)                                   \
     do {                                                \
         PyObject *_py_decref_tmp = (PyObject *)(op);    \

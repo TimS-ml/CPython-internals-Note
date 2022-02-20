@@ -608,7 +608,7 @@
 |   |-- ceval.h
 |   |-- classobject.h
 |   |-- codecs.h
-|   |-- code.h
+|   |-- code.h (pointers to different PyObject)
 |   |-- compile.h
 |   |-- complexobject.h
 |   |-- context.h
@@ -623,7 +623,7 @@
 |   |-- fileobject.h
 |   |-- fileutils.h
 |   |-- floatobject.h
-|   |-- frameobject.h
+|   |-- frameobject.h (the frame)
 |   |-- funcobject.h
 |   |-- genobject.h
 |   |-- graminit.h
