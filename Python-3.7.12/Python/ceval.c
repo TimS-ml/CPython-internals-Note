@@ -501,7 +501,7 @@ _Py_CheckRecursiveCall(const char *where)
     return 0;
 }
 
-/* Status code for main loop (reason for stack unwind) */
+/* PYIMPORTANT: Status code for main loop (reason for stack unwind) */
 enum why_code {
         WHY_NOT =       0x0001, /* No error */
         WHY_EXCEPTION = 0x0002, /* Exception occurred */
@@ -540,8 +540,11 @@ PyEval_EvalFrame(PyFrameObject *f) {
     return PyEval_EvalFrameEx(f, 0);
 }
 
-PyObject *
-PyEval_EvalFrameEx(PyFrameObject *f, int throwflag)
+// PYIMPORTANT
+PyObject *  // a pointer to PyObject, everything in python is an Object
+// throwflag: an exception
+// PyFrameObject *f: a pointer
+PyEval_EvalFrameEx(PyFrameObject *f, int throwflag)  // A super long function
 {
     PyThreadState *tstate = PyThreadState_GET();
     return tstate->interp->eval_frame(f, throwflag);
@@ -553,7 +556,7 @@ _PyEval_EvalFrameDefault(PyFrameObject *f, int throwflag)
 #ifdef DXPAIRS
     int lastopcode = 0;
 #endif
-    PyObject **stack_pointer;  /* Next free slot in value stack */
+    PyObject **stack_pointer;  /* PYIMPORTANT: Next free slot in value stack */
     const _Py_CODEUNIT *next_instr;
     int opcode;        /* Current opcode */
     int oparg;         /* Current opcode argument, if any */
@@ -640,6 +643,9 @@ _PyEval_EvalFrameDefault(PyFrameObject *f, int throwflag)
 /* Import the static jump table */
 #include "opcode_targets.h"
 
+// PYIMPORTANT: basically TARGET equals to
+// case xxx:
+//   do xxx
 #define TARGET(op) \
     TARGET_##op: \
     case op:
@@ -829,7 +835,7 @@ _PyEval_EvalFrameDefault(PyFrameObject *f, int throwflag)
         Py_XDECREF(traceback); \
     } while(0)
 
-/* Start of code */
+/* PYIMPORTANT: Start of code */
 
     /* push frame */
     if (Py_EnterRecursiveCall(""))
@@ -927,7 +933,8 @@ _PyEval_EvalFrameDefault(PyFrameObject *f, int throwflag)
     assert(!PyErr_Occurred());
 #endif
 
-    for (;;) {  // The main for loop
+    // PYIMPORTANT, loop through your byte code (Check README.md)
+    for (;;) {  // The main for loop of python
         assert(stack_pointer >= f->f_valuestack); /* else underflow */
         assert(STACK_LEVEL() <= co->co_stacksize);  /* else overflow */
         assert(!PyErr_Occurred());
@@ -1003,7 +1010,8 @@ _PyEval_EvalFrameDefault(PyFrameObject *f, int throwflag)
                 goto error;
             }
         }
-
+    
+    // PYIMPORTANT: This is a way to speed up the looping
     fast_next_opcode:
         f->f_lasti = INSTR_OFFSET();
 
@@ -1034,7 +1042,7 @@ _PyEval_EvalFrameDefault(PyFrameObject *f, int throwflag)
                 goto error;
         }
 
-        /* Extract opcode and argument */
+        /* PYIMPORTANT: Extract opcode and argument */
 
         NEXTOPARG();
     dispatch_opcode:
@@ -1048,7 +1056,7 @@ _PyEval_EvalFrameDefault(PyFrameObject *f, int throwflag)
 
 #ifdef LLTRACE
         /* Instruction tracing */
-
+        // When executing `test.py`, loop through [101, 0, 106, 1, 1, 0, 100, 0, 83, 0]
         if (lltrace) {
             if (HAS_ARG(opcode)) {
                 printf("%d: %d, %d\n",
@@ -1268,7 +1276,8 @@ _PyEval_EvalFrameDefault(PyFrameObject *f, int throwflag)
                 goto error;
             DISPATCH();
         }
-
+        
+        // PYIMPORTANT
         TARGET(BINARY_ADD) {
             PyObject *right = POP();
             PyObject *left = TOP();
@@ -3436,7 +3445,7 @@ fast_block_end:
         } /* unwind stack */
 
         /* End the loop if we still have an error (or return) */
-
+        // PYIMPORTANT
         if (why != WHY_NOT)
             break;
 

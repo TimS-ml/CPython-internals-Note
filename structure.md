@@ -861,7 +861,7 @@
 |   |   |-- ndbm.py
 |   |-- decimal.py
 |   |-- difflib.py
-|   |-- dis.py
+|   |-- dis.py  (python -m dis xxx.py)
 |   |-- distutils
 |   |   |-- archive_util.py
 |   |   |-- bcppcompiler.py
@@ -3760,7 +3760,12 @@
 |   |-- bltinmodule.c
 |   |-- bootstrap_hash.c
 |   |-- ceval.c (Main interpreter loop)
-          - Around l930
+          - A super long function
+            PyEval_EvalFrameEx(PyFrameObject *f, int throwflag)
+            - Skip if else stuffs, start reading source code here:
+              PyObject **stack_pointer;
+          - Main python function
+            for (;;)
 |   |-- ceval_gil.h
 |   |-- clinic
 |   |   |-- bltinmodule.c.h

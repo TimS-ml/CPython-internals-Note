@@ -528,8 +528,8 @@ def _test():
     args = parser.parse_args()
     with args.infile as infile:
         source = infile.read()
-    code = compile(source, args.infile.name, "exec")
-    dis(code)
+    code = compile(source, args.infile.name, "exec")  # interesting
+    dis(code)  # a magic function lol
 
 if __name__ == "__main__":
     _test()

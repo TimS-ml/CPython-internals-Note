@@ -7,7 +7,7 @@ extern "C" {
 
 
     /* Instruction opcodes for compiled code */
-#define POP_TOP                   1
+#define POP_TOP                   1  // no argument
 #define ROT_TWO                   2
 #define ROT_THREE                 3
 #define DUP_TOP                   4
@@ -65,7 +65,7 @@ extern "C" {
 #define POP_BLOCK                87
 #define END_FINALLY              88
 #define POP_EXCEPT               89
-#define HAVE_ARGUMENT            90
+#define HAVE_ARGUMENT            90  // place holder, before 90: no arg, after 90: with arg
 #define STORE_NAME               90
 #define DELETE_NAME              91
 #define UNPACK_SEQUENCE          92
